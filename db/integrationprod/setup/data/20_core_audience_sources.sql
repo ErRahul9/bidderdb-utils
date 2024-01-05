@@ -1,0 +1,32 @@
+-- --
+-- -- PostgreSQL database dump
+-- --
+--
+-- -- Dumped from database version 14.4
+-- -- Dumped by pg_dump version 15.2
+--
+-- SET statement_timeout = 0;
+-- SET lock_timeout = 0;
+-- SET idle_in_transaction_session_timeout = 0;
+-- SET client_encoding = 'UTF8';
+-- SET standard_conforming_strings = on;
+-- SELECT pg_catalog.set_config('search_path', '', false);
+-- SET check_function_bodies = false;
+-- SET xmloption = content;
+-- SET client_min_messages = warning;
+-- SET row_security = off;
+--
+-- --
+-- -- Data for Name: audience_sources; Type: TABLE DATA; Schema: core; Owner: qacore
+-- --
+--
+-- INSERT INTO core.audience_sources (audience_source_id, name, create_time) VALUES (1, 'Cookie', '2019-07-26 01:55:27.130029');
+-- INSERT INTO core.audience_sources (audience_source_id, name, create_time) VALUES (2, 'Full IP', '2019-07-26 01:55:27.130029');
+-- INSERT INTO core.audience_sources (audience_source_id, name, create_time) VALUES (3, 'Delta IP', '2019-07-26 01:55:27.130029');
+-- INSERT INTO core.audience_sources (audience_source_id, name, create_time) VALUES (4, 'Impression', '2019-07-26 01:55:27.130029');
+-- INSERT INTO core.audience_sources (audience_source_id, name, create_time) VALUES (5, 'Oracle', '2019-07-26 01:55:27.130029');
+--
+--
+-- --
+-- -- PostgreSQL database dump complete
+-- --

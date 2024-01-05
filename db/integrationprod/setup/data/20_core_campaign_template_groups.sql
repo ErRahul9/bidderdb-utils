@@ -1,0 +1,40 @@
+-- --
+-- -- PostgreSQL database dump
+-- --
+--
+-- -- Dumped from database version 14.4
+-- -- Dumped by pg_dump version 15.2
+--
+-- SET statement_timeout = 0;
+-- SET lock_timeout = 0;
+-- SET idle_in_transaction_session_timeout = 0;
+-- SET client_encoding = 'UTF8';
+-- SET standard_conforming_strings = on;
+-- SELECT pg_catalog.set_config('search_path', '', false);
+-- SET check_function_bodies = false;
+-- SET xmloption = content;
+-- SET client_min_messages = warning;
+-- SET row_security = off;
+--
+-- --
+-- -- Data for Name: campaign_template_groups; Type: TABLE DATA; Schema: core; Owner: qacore
+-- --
+--
+-- INSERT INTO core.campaign_template_groups (campaign_template_group_id, name, created_at, objective_id) VALUES (1, 'RETARGETING', '2017-12-13 22:48:24.232349', 4);
+-- INSERT INTO core.campaign_template_groups (campaign_template_group_id, name, created_at, objective_id) VALUES (2, 'PROSPECTING_FACEBOOK', '2017-12-13 22:49:14.040945', 3);
+-- INSERT INTO core.campaign_template_groups (campaign_template_group_id, name, created_at, objective_id) VALUES (3, 'BRANDING', '2018-04-02 22:42:28.681839', 1);
+-- INSERT INTO core.campaign_template_groups (campaign_template_group_id, name, created_at, objective_id) VALUES (4, 'EXTENSION', '2019-05-16 20:31:35.116448', 5);
+-- INSERT INTO core.campaign_template_groups (campaign_template_group_id, name, created_at, objective_id) VALUES (6, 'ONSITE OFFERS', '2020-11-19 23:56:41.838414', 2);
+-- INSERT INTO core.campaign_template_groups (campaign_template_group_id, name, created_at, objective_id) VALUES (5, 'TV RETARGETING', '2021-01-11 23:24:28.386137', 4);
+--
+--
+-- --
+-- -- Name: campaign_template_groups_id_seq; Type: SEQUENCE SET; Schema: core; Owner: qacore
+-- --
+--
+-- SELECT pg_catalog.setval('core.campaign_template_groups_id_seq', 1, false);
+--
+--
+-- --
+-- -- PostgreSQL database dump complete
+-- --

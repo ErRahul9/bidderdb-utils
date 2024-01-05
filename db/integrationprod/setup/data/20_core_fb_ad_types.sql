@@ -1,0 +1,33 @@
+-- --
+-- -- PostgreSQL database dump
+-- --
+--
+-- -- Dumped from database version 14.4
+-- -- Dumped by pg_dump version 15.2
+--
+-- SET statement_timeout = 0;
+-- SET lock_timeout = 0;
+-- SET idle_in_transaction_session_timeout = 0;
+-- SET client_encoding = 'UTF8';
+-- SET standard_conforming_strings = on;
+-- SELECT pg_catalog.set_config('search_path', '', false);
+-- SET check_function_bodies = false;
+-- SET xmloption = content;
+-- SET client_min_messages = warning;
+-- SET row_security = off;
+--
+-- --
+-- -- Data for Name: fb_ad_types; Type: TABLE DATA; Schema: core; Owner: qacore
+-- --
+--
+-- INSERT INTO core.fb_ad_types (fb_ad_type_id, name, ad_format, fb_perform_goal_type) VALUES (1, 'Conversion Broad', 'broad', 'conv');
+-- INSERT INTO core.fb_ad_types (fb_ad_type_id, name, ad_format, fb_perform_goal_type) VALUES (2, 'Conversion Collections', 'collection', 'conv');
+-- INSERT INTO core.fb_ad_types (fb_ad_type_id, name, ad_format, fb_perform_goal_type) VALUES (3, 'ADS Broad', 'broad', 'ads');
+-- INSERT INTO core.fb_ad_types (fb_ad_type_id, name, ad_format, fb_perform_goal_type) VALUES (4, 'ADS Collections', 'collection', 'ads');
+-- INSERT INTO core.fb_ad_types (fb_ad_type_id, name, ad_format, fb_perform_goal_type) VALUES (5, 'Traffic Broad', 'broad', 'traffic');
+-- INSERT INTO core.fb_ad_types (fb_ad_type_id, name, ad_format, fb_perform_goal_type) VALUES (6, 'Traffic Collections', 'collection', 'traffic');
+--
+--
+-- --
+-- -- PostgreSQL database dump complete
+-- --

@@ -1,0 +1,44 @@
+-- --
+-- -- PostgreSQL database dump
+-- --
+--
+-- -- Dumped from database version 14.4
+-- -- Dumped by pg_dump version 15.2
+--
+-- SET statement_timeout = 0;
+-- SET lock_timeout = 0;
+-- SET idle_in_transaction_session_timeout = 0;
+-- SET client_encoding = 'UTF8';
+-- SET standard_conforming_strings = on;
+-- SELECT pg_catalog.set_config('search_path', '', false);
+-- SET check_function_bodies = false;
+-- SET xmloption = content;
+-- SET client_min_messages = warning;
+-- SET row_security = off;
+--
+-- --
+-- -- Data for Name: campaign_types; Type: TABLE DATA; Schema: core; Owner: qacore
+-- --
+--
+-- INSERT INTO core.campaign_types (type_id, name, created_at) VALUES (1, 'Remarketed Weighted', '2017-12-12 00:22:29.45391');
+-- INSERT INTO core.campaign_types (type_id, name, created_at) VALUES (2, 'Remarketed Escalating', '2017-12-12 00:22:52.092809');
+-- INSERT INTO core.campaign_types (type_id, name, created_at) VALUES (3, 'Non-Remarketed', '2017-12-12 00:23:10.156026');
+-- INSERT INTO core.campaign_types (type_id, name, created_at) VALUES (4, 'Segmented Remarketed Weighted', '2017-12-12 00:23:25.972605');
+-- INSERT INTO core.campaign_types (type_id, name, created_at) VALUES (5, 'Segmented Remarketed Escalating', '2017-12-12 00:23:47.954555');
+-- INSERT INTO core.campaign_types (type_id, name, created_at) VALUES (6, 'Segmented Non-Remarketed', '2017-12-12 00:24:10.250627');
+-- INSERT INTO core.campaign_types (type_id, name, created_at) VALUES (7, 'FB Retargeting News Feed', '2017-12-12 00:24:33.674247');
+-- INSERT INTO core.campaign_types (type_id, name, created_at) VALUES (8, 'FB Retargeting RHC', '2017-12-12 00:25:02.977679');
+-- INSERT INTO core.campaign_types (type_id, name, created_at) VALUES (9, 'FB API Prospecting', '2017-12-12 00:25:30.368187');
+-- INSERT INTO core.campaign_types (type_id, name, created_at) VALUES (10, 'FB API Dynamic', '2017-12-12 00:25:54.797744');
+--
+--
+-- --
+-- -- Name: campaign_types_type_id_seq; Type: SEQUENCE SET; Schema: core; Owner: qacore
+-- --
+--
+-- SELECT pg_catalog.setval('core.campaign_types_type_id_seq', 1, false);
+--
+--
+-- --
+-- -- PostgreSQL database dump complete
+-- --

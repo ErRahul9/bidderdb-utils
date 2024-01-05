@@ -1,0 +1,49 @@
+-- --
+-- -- PostgreSQL database dump
+-- --
+--
+-- -- Dumped from database version 14.4
+-- -- Dumped by pg_dump version 15.2
+--
+-- SET statement_timeout = 0;
+-- SET lock_timeout = 0;
+-- SET idle_in_transaction_session_timeout = 0;
+-- SET client_encoding = 'UTF8';
+-- SET standard_conforming_strings = on;
+-- SELECT pg_catalog.set_config('search_path', '', false);
+-- SET check_function_bodies = false;
+-- SET xmloption = content;
+-- SET client_min_messages = warning;
+-- SET row_security = off;
+--
+-- --
+-- -- Data for Name: r2_roles; Type: TABLE DATA; Schema: core; Owner: qacore
+-- --
+--
+-- INSERT INTO core.r2_roles (role_id, name) VALUES (1, 'power_user');
+-- INSERT INTO core.r2_roles (role_id, name) VALUES (2, 'demo');
+-- INSERT INTO core.r2_roles (role_id, name) VALUES (10, 'cpi');
+-- INSERT INTO core.r2_roles (role_id, name) VALUES (3, 'cpm');
+-- INSERT INTO core.r2_roles (role_id, name) VALUES (4, 'cpc');
+-- INSERT INTO core.r2_roles (role_id, name) VALUES (5, 'report_editor');
+-- INSERT INTO core.r2_roles (role_id, name) VALUES (6, 'admin_tools');
+-- INSERT INTO core.r2_roles (role_id, name) VALUES (8, 'basic_user');
+-- INSERT INTO core.r2_roles (role_id, name) VALUES (7, 'uniques');
+-- INSERT INTO core.r2_roles (role_id, name) VALUES (9, 'pbc');
+-- INSERT INTO core.r2_roles (role_id, name) VALUES (12, 'influence_role');
+-- INSERT INTO core.r2_roles (role_id, name) VALUES (11, 'fb_direct');
+-- INSERT INTO core.r2_roles (role_id, name) VALUES (13, 'nonview_role');
+-- INSERT INTO core.r2_roles (role_id, name) VALUES (15, 'visits');
+-- INSERT INTO core.r2_roles (role_id, name) VALUES (14, 'click_opt');
+--
+--
+-- --
+-- -- Name: r2_roles_role_id_seq; Type: SEQUENCE SET; Schema: core; Owner: qacore
+-- --
+--
+-- SELECT pg_catalog.setval('core.r2_roles_role_id_seq', 1, false);
+--
+--
+-- --
+-- -- PostgreSQL database dump complete
+-- --
