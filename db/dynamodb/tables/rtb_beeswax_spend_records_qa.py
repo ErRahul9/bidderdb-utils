@@ -3,8 +3,8 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from random import randint
 
-from core.date_utils import epoch_in_microseconds
-from core.db.dynamodb.base import DynamoDbItem
+from db.date_utils import epoch_in_microseconds
+from db.dynamodb.base import DynamoDbItem
 
 
 @dataclass(kw_only=True)

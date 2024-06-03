@@ -1,0 +1,375 @@
+---
+version: "1.0"
+
+
+networks:
+  redis-net:
+    driver: bridge
+
+
+services:
+
+  bidPriceRealtimeRedis:
+    image: redis:latest
+    container_name: price
+    ports:
+      - "6384:6384"
+    volumes:
+      - ./price/data:/data
+      - ./redis-config/price.conf:/redis-config/price.conf
+    networks:
+      - redis-net
+    command: redis-server /redis-config/price.conf
+
+  bidPriceMetadataRedis:
+    image: redis:latest
+    container_name: metadata
+    ports:
+      - "6380:6380"
+    volumes:
+      - ./metadata/data:/data
+      - ./redis-config/metadata.conf:/redis-config/metadata.conf
+    command: redis-server /redis-config/metadata.conf
+    networks:
+      - redis-net
+
+
+  recencyRedis:
+    image: redis:latest
+    container_name: recency
+    ports:
+      - "6381:6381"
+    volumes:
+      - ./recency/data:/data
+      - ./redis-config/recency.conf:/redis-config/recency.conf
+    command: redis-server /redis-config/recency.conf
+    networks:
+      - redis-net
+
+  deviceInfoRedis:
+    image: redis:latest
+    container_name: device
+    ports:
+      - "6382:6382"
+    volumes:
+      - ./device/data:/data
+      - ./redis-config/device.conf:/redis-config/device.conf
+    command: redis-server /redis-config/device.conf
+    networks:
+      - redis-net
+
+  bidderSettingsRedis:
+    image: redis:latest
+    container_name: settings
+    ports:
+      - "6383:6383"
+    volumes:
+      - ./settings/data:/data
+      - ./redis-config/settings.conf:/redis-config/settings.conf
+    command: redis-server /redis-config/settings.conf
+    networks:
+      - redis-net
+
+
+  bidderSpendRedis:
+    image: redis:latest
+    container_name: spend
+    ports:
+      - "6386:6386"
+    volumes:
+      - ./spend/data:/data
+      - ./redis-config/spend.conf:/redis-config/spend.conf
+    command: redis-server /redis-config/spend.conf
+
+    networks:
+      - redis-net
+
+  bidderfrequencyRedis:
+    image: redis:latest
+    container_name: frequency
+    ports:
+      - "6387:6387"
+    volumes:
+      - ./frequency/data:/data
+      - ./redis-config/frequency.conf:/redis-config/frequency.conf
+    command: redis-server /redis-config/frequency.conf
+    networks:
+      - redis-net
+
+  bidderblockedRedis:
+    image: redis:latest
+    container_name: blocked
+    ports:
+      - "6385:6385"
+    volumes:
+      - ./blocked/data:/data
+      - ./redis-config/blocked.conf:/redis-config/blocked.conf
+    command: redis-server /redis-config/blocked.conf
+    networks:
+      - redis-net
+
+  bidderbidVolumeRedis:
+    image: redis:latest
+    container_name: bidVolume
+    ports:
+      - "6388:6388"
+    volumes:
+      - ./bidVolume/data:/data
+      - ./redis-config/bidvolume.conf:/redis-config/bidvolume.conf
+    command: redis-server /redis-config/bidvolume.conf
+    networks:
+      - redis-net
+
+
+  bidderMemberRedis:
+    image: redis:latest
+    container_name: member
+    ports:
+      - "6389:6389"
+    volumes:
+      - ./member/data:/data
+      - ./redis-config/member.conf:/redis-config/member.conf
+    command: redis-server /redis-config/member.conf
+
+    networks:
+      - redis-net
+
+
+  bidderSegmentsRedis:
+    image: redis:latest
+    container_name: segment
+    ports:
+      - "6390:6390"
+    volumes:
+      - ./segment/data:/data
+      - ./redis-config/segment.conf:/redis-config/segment.conf
+    command: redis-server /redis-config/segment.conf
+
+    networks:
+      - redis-net
+
+  bidderCampaignRedis:
+    image: redis:latest
+    container_name: campaign
+    ports:
+      - "6391:6391"
+    volumes:
+      - ./campaign/data:/data
+      - ./redis-config/campaign.conf:/redis-config/campaign.conf
+    command: redis-server /redis-config/campaign.conf
+
+    networks:
+      - redis-net
+
+
+  integrationdb:
+      build:
+        context: .
+        dockerfile: db/integrationprod/Dockerfile
+      ports:
+        - 5430:5432
+      networks:
+        - redis-net
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"  # AMQP port
+      - "15672:15672"
+
+  localstack:
+    image: localstack/localstack
+    container_name: localstack
+    environment:
+      - SERVICES=sqs
+    ports:
+      - "4566:4566"
+
+  dynamodb:
+    image: amazon/dynamodb-local
+    ports:
+      - "8000:8000"
+    volumes:
+      - dynamodb_data:/home/dynamodblocal
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+    ports:
+      - "2181:2181"
+
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+
+
+  bidder:
+    image: bidder:latest
+    depends_on:
+      - integrationdb
+      - deviceInfoRedis
+      - bidderblockedRedis
+      - bidderCampaignRedis
+      - bidPriceMetadataRedis
+      - bidPriceRealtimeRedis
+      - bidderSettingsRedis
+      - bidderSpendRedis
+      - bidderfrequencyRedis
+      - bidderbidVolumeRedis
+      - bidderSegmentsRedis
+      - bidderMemberRedis
+      - recencyRedis
+      - dynamodb
+      - rabbitmq
+      - kafka
+      - localstack
+#    command: sh -c "sleep 180"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      REDIS_BID_PRICE_REALTIME_CONNECTION: redis://price:6384
+      REDIS_BID_PRICE_METADATA_CONNECTION: redis://metadata:6380
+      REDIS_RECENCY_CONNECTION: redis://recency:6381
+      REDIS_DEVICE_INFO_CONNECTION: redis://device:6382
+      REDIS_BIDDER_SETTINGS_CONNECTION: redis://settings:6383
+      REDIS_BIDDER_FREQUENCY_CONNECTION: redis://frequency:6387
+      REDIS_SPEND_CONNECTION: redis://spend:6386
+      REDIS_BID_VOLUME_CONNECTION: redis://bidVolume:6388
+      bidder.settingCacheDelayMilliSeconds: 3
+      bidder.topologyRefreshHours: 1
+      bidder.clientShutdownSeconds: 60000000000
+      bidder.requestTimeoutSeconds: 1000000000000
+      bidder.requestTimeoutMillis: 500000000000
+      bidder.defaultBidInfoReloadFixedDelayMillis: 60000
+      bidder.cacheBidMetaDataReloadFixedDelayMillis: 3
+      bidder.logBidPriceToConsole: true
+      bidder.enableBlocklist: false
+
+    ports:
+      - "8080:8080"
+    networks:
+      - redis-net
+
+
+#
+#
+#  rtbbidder:
+##    image: bidder:latest
+#    depends_on:
+#      - integrationdb
+#      - deviceInfoRedis
+#      - bidderblockedRedis
+#      - bidPriceMetadataRedis
+#      - bidPriceRealtimeRedis
+#      - bidderSettingsRedis
+#      - bidderSpendRedis
+#      - bidderfrequencyRedis
+#      - bidderbidVolumeRedis
+#      - recencyRedis
+##      - dynamodb
+##      - rabbitmq
+##      - kafka
+#    environment:
+#      SPRING_PROFILES_ACTIVE: docker
+#      REDIS_BID_PRICE_REALTIME_CONNECTION: redis://price:6384
+#      REDIS_BID_PRICE_METADATA_CONNECTION: redis://metadata:6380
+#      REDIS_RECENCY_CONNECTION: redis://recency:6381
+#      REDIS_DEVICE_INFO_CONNECTION: redis://device:6382
+#      REDIS_BIDDER_SETTINGS_CONNECTION: redis://settings:6383
+#      REDIS_BIDDER_FREQUENCY_CONNECTION: redis://frequency:6387
+#      REDIS_SPEND_CONNECTION: redis://spend:6386
+#      REDIS_BID_VOLUME_CONNECTION: redis://bidVolume:6388
+#      bidder.settingCacheDelayMilliSeconds: 3
+#      bidder.topologyRefreshHours: 1
+#      bidder.clientShutdownSeconds: 60000000000
+#      bidder.requestTimeoutSeconds: 1000000000000
+#      bidder.requestTimeoutMillis: 500000000000
+#      bidder.defaultBidInfoReloadFixedDelayMillis: 60000
+#      bidder.cacheBidMetaDataReloadFixedDelayMillis: 3
+#      bidder.logBidPriceToConsole: true
+#      bidder.enableBlocklist: false
+#
+#    ports:
+#      - "8080:8080"
+#    networks:
+#      - redis-net
+#
+
+  tests:
+    build:
+        context: .
+        dockerfile: Dockerfile
+    volumes:
+        - .:/app
+    depends_on:
+      - bidder
+    networks:
+      - redis-net
+    environment:
+      ENVIRONMENT: docker
+      bidder: http://bidder:8080/beeswax/bidder
+      PRICE_HOST: bidPriceRealtimeRedis
+      PRICE_PORT: 6384
+      METADATA_HOST: bidPriceMetadataRedis
+      METADATA_PORT: 6380
+      RECENCY_HOST: recencyRedis
+      RECENCY_PORT: 6381
+      DEVICE_HOST: deviceInfoRedis
+      DEVICE_PORT: 6382
+      SETTINGS_HOST: bidderSettingsRedis
+      SETTINGS_PORT: 6383
+    command: ["poetry", "run", "pytest","test_beeswax_Bidder_Regression.py","--html=report_regression.html"]
+volumes:
+  dynamodb_data:
+#
+#  tests:
+#      build:
+#        context: ..
+#        dockerfile: ../Dockerfile
+#      volumes:
+#        - .:/app
+#      depends_on:
+#        - price-redis
+#        - metadata-redis
+#        - recency-redis
+#        - device-info-redis
+#        - settings-redis
+#        - spend-redis
+#        - bidder
+#      network_mode: host
+#      environment:
+#        ENVIRONMENT: docker
+#        bidder: http://127.0.0.1:8080/beeswax/bidder
+#        PRICE_HOST: 127.0.0.1
+#        PRICE_PORT: 40001
+#        METADATA_HOST: 127.0.0.1
+#        METADATA_PORT: 41001
+#        RECENCY_HOST: 127.0.0.1
+#        RECENCY_PORT: 42001
+#        DEVICE_HOST: 127.0.0.1
+#        DEVICE_PORT: 43001
+#        SETTINGS_HOST: 127.0.0.1
+#        SETTINGS_PORT: 44001
+#        SPEND_HOST: 127.0.0.1
+#        SPEND_PORT: 45001
+#        FREQUENCY_HOST: 127.0.0.1
+#        FREQUENCY_PORT: 46001
+#
+#
+#      command:
+#        - /bin/sh
+#        - -c
+#        - |
+#          echo "waiting 30 sec for bidder to boot up"
+#          sleep 30
+#          echo "running tests now"
+#          poetry run pytest test_beeswax_Bidder_Regression.py
+##        poetry run pytest test_single_run.py --html=report_regression.html

@@ -8,3 +8,5 @@ redis-cli --cluster fix localhost:6383 --cluster-yes
 redis-cli --cluster fix localhost:6384 --cluster-yes
 redis-cli --cluster fix localhost:6386 --cluster-yes
 redis-cli --cluster fix localhost:6387 --cluster-yes
+redis-cli --cluster fix localhost:6388 --cluster-yes
+redis-cli --cluster fix localhost:6389 --cluster-yes

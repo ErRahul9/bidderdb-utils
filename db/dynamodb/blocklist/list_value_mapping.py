@@ -1,4 +1,4 @@
-from core.db.dynamodb.tables.list_value_mapping_dev import ListValueMappingDev
+from db.dynamodb.tables.list_value_mapping_dev import ListValueMappingDev
 
 
 class ListValueMappingItem:

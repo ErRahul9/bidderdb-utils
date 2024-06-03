@@ -1,8 +1,10 @@
-
+alter ROLE postgres WITH  PASSWORD 'password';
 CREATE ROLE root WITH LOGIN;
 CREATE ROLE qacore WITH LOGIN;
+
+
 -- CREATE ROLE qasync_automated_user WITH LOGIN;
-ALTER USER root WITH PASSWORD 'password';
+-- ALTER USER root WITH PASSWORD 'password';
 
 
 

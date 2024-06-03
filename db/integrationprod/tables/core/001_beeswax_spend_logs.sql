@@ -1,0 +1,42 @@
+create table core.beeswax_spend_log
+(
+    time                       timestamp,
+    advertiser_id              integer,
+    app_bundle                 text,
+    auction_id                 text,
+    bid_request_id             text,
+    bid_request_imp            jsonb,
+    campaign_id                integer,
+    device_ip                  text,
+    device_type                text,
+    device_ua                  text,
+    inventory_source           text,
+    line_item_id               integer,
+    site_bundle                text,
+    win_cost_micros_usd        bigint,
+    epoch                      bigint,
+    expansion_integer_column1  integer,
+    expansion_integer_column2  integer,
+    expansion_integer_column3  integer,
+    expansion_integer_column4  integer,
+    expansion_integer_column5  integer,
+    expansion_integer_column6  integer,
+    expansion_integer_column7  integer,
+    expansion_integer_column8  integer,
+    expansion_integer_column9  integer,
+    expansion_integer_column10 integer,
+    site_domain                text,
+    app_domain                 text,
+    model_params               text,
+    expansion_text_column4     text,
+    expansion_text_column5     text,
+    expansion_text_column6     text,
+    expansion_text_column7     text,
+    expansion_text_column8     text,
+    expansion_text_column9     text,
+    expansion_text_column10    text,
+    impression_time            timestamp
+);
+
+alter table core.beeswax_spend_log
+    owner to qacore;

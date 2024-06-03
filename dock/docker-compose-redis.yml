@@ -1,0 +1,126 @@
+version: "3.8"
+
+services:
+  price-redis:
+    image: local-redis-cluster
+    environment:
+      REDIS_START_PORT: 40000
+    network_mode: host
+
+  metadata-redis:
+    image: local-redis-cluster
+    environment:
+      REDIS_START_PORT: 41000
+    network_mode: host
+
+  recency-redis:
+    image: local-redis-cluster
+    environment:
+      REDIS_START_PORT: 42000
+    network_mode: host
+
+  device-info-redis:
+    image: local-redis-cluster
+    environment:
+      REDIS_START_PORT: 43000
+    network_mode: host
+
+  settings-redis:
+    image: local-redis-cluster
+    environment:
+      REDIS_START_PORT: 44000
+    network_mode: host
+
+  spend-redis:
+    image: local-redis-cluster
+    environment:
+      REDIS_START_PORT: 45000
+    network_mode: host
+
+  frequency-redis:
+    image: local-redis-cluster
+    environment:
+      REDIS_START_PORT: 46000
+    network_mode: host
+
+  bidder:
+    platform: linux/x86_64
+#    image: steelhousedev/rtb-bidder-service:v0.296-prod-burnin-west-8-a669866
+    image: bidder:latest
+    depends_on:
+      - price-redis
+      - metadata-redis
+      - recency-redis
+      - device-info-redis
+      - settings-redis
+      - spend-redis
+    environment:
+      SECURITY_BASIC_ENABLED: false
+      MANAGEMENT_SECURITY_ENABLED: false
+      SPRING_PROFILES_ACTIVE: docker
+      REDIS_BID_PRICE_REALTIME_CONNECTION: redis://127.0.0.1:40001
+      REDIS_BID_PRICE_METADATA_CONNECTION: redis://127.0.0.1:41001
+      REDIS_RECENCY_CONNECTION: redis://127.0.0.1:42001
+      REDIS_DEVICE_INFO_CONNECTION: redis://127.0.0.1:43001
+      REDIS_BIDDER_SETTINGS_CONNECTION: redis://127.0.0.1:44001
+      REDIS_SPEND_CONNECTION: redis://127.0.0.1:45001
+      REDIS_BIDDER_FREQUENCY_CONNECTION: redis://127.0.0.1:46001
+      bidder.cacheBidMetaDataReloadFixedDelayMillis: 5000
+      bidder.spendByDeviceCacheDelayMilliSeconds: 5000
+      bidder.expireStaleCreativesWindowMillis: 5000
+      bidder.pmpCacheDelayMilliSeconds: 5000
+      bidder.enableBlocklist: false
+      bidder.logBidPriceToConsole: true #logBidPriceToConsole
+      bidder.publisherForSite: true
+      bidder.bidderConcurrency: 4
+      bidder.publish: false
+      bidder.logLineLimit: 3
+      redis.topologyRefreshHours: 1
+      redis.clientShutdownSeconds: 60
+      redis.requestTimeoutSeconds: 10
+      redis.requestTimeoutMillis: 10
+
+      server.jetty.acceptors: 12
+      server.jetty.selectors: 24
+      server.jetty.connection-timeout: 90000ms
+
+      logging.level.app: DEBUG
+      logging.level.bidder: DEBUG
+    network_mode: host
+
+  tests:
+    build:
+        context: ..
+        dockerfile: ../Dockerfile
+    volumes:
+        - .:/app
+    depends_on:
+      - price-redis
+      - metadata-redis
+      - recency-redis
+      - device-info-redis
+      - settings-redis
+      - spend-redis
+      - bidder
+    network_mode: host
+    environment:
+      ENVIRONMENT: docker
+      bidder: http://127.0.0.1:8080/beeswax/bidder
+      PRICE_HOST: 127.0.0.1
+      PRICE_PORT: 40001
+      METADATA_HOST: 127.0.0.1
+      METADATA_PORT:  41001
+      RECENCY_HOST: 127.0.0.1
+      RECENCY_PORT:  42001
+      DEVICE_HOST: 127.0.0.1
+      DEVICE_PORT: 43001
+      SETTINGS_HOST: 127.0.0.1
+      SETTINGS_PORT: 44001
+      SPEND_HOST: 127.0.0.1
+      SPEND_PORT: 45001
+      FREQUENCY_HOST: 127.0.0.1
+      FREQUENCY_PORT: 46001
+
+
+    command: ["poetry", "run", "pytest","test_beeswax_Bidder_Regression.py"]
+#    command: ["poetry", "run", "pytest","test_single_run.py","--html=report_regression.html"]

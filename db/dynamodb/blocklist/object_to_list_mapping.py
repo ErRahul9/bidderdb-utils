@@ -1,7 +1,7 @@
 from typing import Dict
 
-from core.db.dynamodb.tables.object_to_list_mapping_dev import ObjectToListMappingDev
-from core.helpers.blocklist.list_value_mapping import ListValueMappingItem
+from db.dynamodb.tables.object_to_list_mapping_dev import ObjectToListMappingDev
+from db.dynamodb.blocklist.list_value_mapping import ListValueMappingItem
 
 
 class ObjectToListMappingItem:

@@ -4,7 +4,7 @@ from dataclasses import dataclass, field
 from random import randint
 from typing import Dict
 
-from core.db.dynamodb.base import DynamoDbItem
+from db.dynamodb.base import DynamoDbItem
 
 
 @dataclass(kw_only=True)

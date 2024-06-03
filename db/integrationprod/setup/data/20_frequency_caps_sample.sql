@@ -1,0 +1,3 @@
+-- insert into bidder.frequency_caps (object_id, frequency_cap_id, frequency_cap, frequency_cap_duration, active,
+--                                    object_type)
+-- values (11123,10102,10000,60000000,True,'campaign');
